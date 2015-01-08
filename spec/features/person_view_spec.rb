@@ -10,6 +10,15 @@ describe 'the person view', type: :feature do
     visit person_path(person)
   end
 
+  it 'removes phone number from list after destroy' do
+    first = person.phone_numbers.first
+    expect(page).to have_content(first.number)
+    within('#id_0') do
+      page.click_link_or_button('delete')
+    end
+    expect(page).to_not have_content(first.number)
+  end
+
   it 'shows the phone numbers' do
     person.phone_numbers.each do |phone|
       expect(page).to have_content(phone.number)

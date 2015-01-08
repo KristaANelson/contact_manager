@@ -11,12 +11,14 @@
 </p>
 
 <ul>
-  <% @person.phone_numbers.each do |phone| %>
+  <% @person.phone_numbers.each_with_index do |phone, i| %>
+  <div id=<%="id_#{i}"%> >
   <li>
     <%= phone.number %> |
     <%= link_to('edit', edit_phone_number_path(phone))%> |
     <%= link_to('delete', phone_number_path(phone), method: :delete)%>
   </li>
+  </div>
   <% end %>
 </ul>
 
