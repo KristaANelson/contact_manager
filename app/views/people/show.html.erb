@@ -15,9 +15,21 @@
   <div id=<%="id_#{i}"%> >
   <li>
     <%= phone.number %> |
-    <%= link_to('edit', edit_phone_number_path(phone))%> |
+    <%= link_to('edit', edit_phone_number_path(phone))%>
     <%= link_to('delete', phone_number_path(phone), method: :delete)%>
   </li>
+  </div>
+  <% end %>
+</ul>
+
+<ul>
+  <% @person.email_addresses.each_with_index do |email, i| %>
+  <div id=<%="email_id_#{i}"%> >
+    <li>
+      <%= email.address %>
+      <%= link_to('edit', edit_email_address_path(email))%> |
+      <%= link_to('delete', email_address_path(email), method: :delete)%>
+    </li>
   </div>
   <% end %>
 </ul>
