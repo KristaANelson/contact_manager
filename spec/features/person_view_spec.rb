@@ -75,5 +75,43 @@ describe 'the person view', type: :feature do
     it 'looks for lis for each address' do
       expect(page).to have_selector('li', text: 'krista.nelson@gmail.com')
     end
+
+    it 'has an email address link' do
+      page.click_link('Add email address')
+      page.fill_in('Address', with: 'rocko@gmail.com')
+      page.click_button('Create Email address')
+      expect(current_path).to eq(person_path(person))
+      expect(page).to have_content('rocko@gmail.com')
+    end
+
+    it 'edits an email address' do
+      email = person.email_addresses.first
+      old_email = email.address
+
+      first(:link, 'edit').click
+      page.fill_in('Address', with: 'update@gmail.com')
+      page.click_button('Update Email address')
+      expect(current_path).to eq(person_path(person))
+      expect(page).to have_content('update@gmail.com')
+      expect(page).to_not have_content(old_email)
+    end
+
+    it 'destroys an email address' do
+        person.email_addresses.each do |email|
+        expect(page).to have_link('delete', href:email_address_path(email))
+      end
+    end
+
+    it 'removes email from list after destroy' do
+      first = person.email_addresses.first
+      expect(page).to have_content(first.address)
+      within('#email_id_0') do
+        page.click_link_or_button('delete')
+      end
+      expect(page).to_not have_content(first.address)
+    end
+
   end
+
+
 end
